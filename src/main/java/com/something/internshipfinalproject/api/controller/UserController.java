@@ -2,10 +2,11 @@ package com.something.internshipfinalproject.api.controller;
 
 import com.something.internshipfinalproject.business.abstracts.UserService;
 import com.something.internshipfinalproject.business.dto.requests.create.CreateUserRequest;
+import com.something.internshipfinalproject.business.dto.requests.update.UpdateUserRequest;
 import com.something.internshipfinalproject.business.dto.responses.create.CreateUserResponse;
 import com.something.internshipfinalproject.business.dto.responses.get.GetUserResponse;
+import com.something.internshipfinalproject.business.dto.responses.update.UpdateUserResponse;
 import com.something.internshipfinalproject.entities.User;
-import com.something.internshipfinalproject.repository.UserRepository;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -30,13 +31,12 @@ public class UserController {
 
 	//Updating and returns existing user.
 	@PutMapping("/{id}")
-	public User updateUser(@PathVariable Long id, @RequestBody User user) {
-		user.setId(id);
-		return userRepository.save(user);
+	public UpdateUserResponse updateUser(@PathVariable Long id, UpdateUserRequest request) {
+		return userService.update(Math.toIntExact(id), request);
 	}
 
 	@DeleteMapping("/{id}")
 	public void deleteUser(@PathVariable Long id) {
-		userRepository.deleteById(id);
+		userService.delete(Math.toIntExact(id));
 	}
 }
